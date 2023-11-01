@@ -1,0 +1,468 @@
+<!--SUAREZ SH -- +51 963700816-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vacunos - Vet-Ganado</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   
+    <style>
+        body {
+            padding-top: 60px; 
+        }
+        .table-striped>tbody>tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-light text-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Vet-Ganado</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-success" href="vacunos.html">Vacunos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="ovinos.html">Ovinos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="tecnico.html">Técnicos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="enfermedades.html">Enfermedades</a>
+                </li>
+               
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>Vacunos</h1>
+        <div class="mb-3">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#agregarVacunoModal">Agregar Vacuno</button>
+            <button class="btn btn-success" data-toggle="modal" data-target="#gestionarDosisModal">Gestionar Dosis</button>
+        </div>
+
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>Nº</th>
+                    <th>Nombre</th>
+                    <th>Fecha Nacimiento</th>
+                    <th>Raza</th>
+                    <th>Sexo</th>
+                    <th>Padre</th>
+                    <th>Madre</th>
+                    <th>Observaciones</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-vacunos">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="agregarVacunoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Vacuno</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formulario-vacuno">
+                        <div class="form-group">
+                            <label for="numero">Nº:</label>
+                            <input type="text" class="form-control" id="numero" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" class="form-control" id="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+                            <input type="date" class="form-control" id="fechaNacimiento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="raza">Raza:</label>
+                            <input type="text" class="form-control" id="raza" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sexo">Sexo:</label>
+                            <select class="form-control" id="sexo" required>
+                                <option value="macho">Macho</option>
+                                <option value="hembra">Hembra</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="padre">Padre:</label>
+                            <input type="text" class="form-control" id="padre">
+                        </div>
+                        <div class="form-group">
+                            <label for="madre">Madre:</label>
+                            <input type="text" class="form-control" id="madre">
+                        </div>
+                        <div class="form-group">
+                            <label for="observaciones">Observaciones:</label>
+                            <textarea class="form-control" id="observaciones"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="agregarVacuno()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="gestionarDosisModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Gestionar Dosis</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#agregarDosisModal">Agregar Dosis</button>
+                    <button class="btn btn-success" data-toggle="modal" data-target="#verDosisModal">Ver Dosis</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="modal fade" id="agregarDosisModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Dosis</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formulario-dosis">
+                    <div class="form-group">
+                        <label for="vacaSeleccionada">Selecciona una Vaca:</label>
+                        <select class="form-control" id="vacaSeleccionada">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Fecha:</label>
+                        <input type="date" class="form-control" id="fecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="accion">Acción:</label>
+                        <input type="text" class="form-control" id="accion" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="producto">Producto:</label>
+                        <input type="text" class="form-control" id="producto" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dosisMl">Dosis (ml):</label>
+                        <input type="number" class="form-control" id="dosisMl" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="proximaDosis">Próxima Dosis:</label>
+                        <input type="date" class="form-control" id="proximaDosis" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="observaciones">Observaciones:</label>
+                        <textarea class="form-control" id="observaciones"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="agregarDosis()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="verDosisModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Dosis de la Vaca</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="verDosisInfo">
+                <div class="form-group">
+                    <label for="vacaSeleccionadaVerDosis">Selecciona una Vaca:</label>
+                    <select class="form-control" id="vacaSeleccionadaVerDosis">
+                    </select>
+                </div>
+                <h5>Dosis de la Vaca</h5>
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Acción</th>
+                            <th>Producto</th>
+                            <th>Dosis (ml)</th>
+                            <th>Próxima Dosis</th>
+                            <th>Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-dosis-vaca">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function agregarVacuno() {
+            const numero = document.getElementById("numero").value;
+            const nombre = document.getElementById("nombre").value;
+            const fechaNacimiento = document.getElementById("fechaNacimiento").value;
+            const raza = document.getElementById("raza").value;
+            const sexo = document.getElementById("sexo").value;
+            const padre = document.getElementById("padre").value;
+            const madre = document.getElementById("madre").value;
+            const observaciones = document.getElementById("observaciones").value;
+    
+            if (numero && nombre && fechaNacimiento && raza && sexo) {
+                const vacunos = JSON.parse(localStorage.getItem("vacunos")) || [];
+    
+                const vacunoExistente = vacunos.find((v) => v.numero === numero);
+    
+                if (vacunoExistente) {
+                    vacunoExistente.nombre = nombre;
+                    vacunoExistente.fechaNacimiento = fechaNacimiento;
+                    vacunoExistente.raza = raza;
+                    vacunoExistente.sexo = sexo;
+                    vacunoExistente.padre = padre;
+                    vacunoExistente.madre = madre;
+                    vacunoExistente.observaciones = observaciones;
+                } else {
+                    const nuevoVacuno = {
+                        numero,
+                        nombre,
+                        fechaNacimiento,
+                        raza,
+                        sexo,
+                        padre,
+                        madre,
+                        observaciones,
+                    };
+    
+                    vacunos.push(nuevoVacuno);
+                }
+    
+                localStorage.setItem("vacunos", JSON.stringify(vacunos));
+    
+                document.getElementById("formulario-vacuno").reset();
+    
+                mostrarVacunos();
+                cargarOpcionesVacas();
+                cargarOpcionesVacasVerDosis();
+    
+                $('#agregarVacunoModal').modal('hide');
+            } else {
+                alert("Por favor, complete todos los campos obligatorios.");
+            }
+        }
+    
+        function mostrarVacunos() {
+            const tablaVacunos = document.getElementById("tabla-vacunos");
+            tablaVacunos.innerHTML = "";
+    
+            const vacunos = JSON.parse(localStorage.getItem("vacunos")) || [];
+    
+            vacunos.forEach((vacuno, index) => {
+                const fila = `
+                    <tr>
+                        <td>${vacuno.numero}</td>
+                        <td>${vacuno.nombre}</td>
+                        <td>${vacuno.fechaNacimiento}</td>
+                        <td>${vacuno.raza}</td>
+                        <td>${vacuno.sexo}</td>
+                        <td>${vacuno.padre || "N/A"}</td>
+                        <td>${vacuno.madre || "N/A"}</td>
+                        <td>${vacuno.observaciones || "N/A"}</td>
+                        <td>
+                            <button class="btn btn-primary" onclick="editarVacuno(${index})">Editar</button>
+                            <button class="btn btn-danger" onclick="eliminarVacuno(${index})">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+                tablaVacunos.innerHTML += fila;
+            });
+        }
+    
+        function editarVacuno(index) {
+            const vacunos = JSON.parse(localStorage.getItem("vacunos")) || [];
+    
+            const vacunoAEditar = vacunos[index];
+    
+            document.getElementById("numero").value = vacunoAEditar.numero;
+            document.getElementById("nombre").value = vacunoAEditar.nombre;
+            document.getElementById("fechaNacimiento").value = vacunoAEditar.fechaNacimiento;
+            document.getElementById("raza").value = vacunoAEditar.raza;
+            document.getElementById("sexo").value = vacunoAEditar.sexo;
+            document.getElementById("padre").value = vacunoAEditar.padre || "";
+            document.getElementById("madre").value = vacunoAEditar.madre || "";
+            document.getElementById("observaciones").value = vacunoAEditar.observaciones || "";
+    
+            $('#agregarVacunoModal').modal('show');
+
+        }
+    
+        function eliminarVacuno(index) {
+            if (confirm("¿Seguro que desea eliminar este vacuno?")) {
+                const vacunos = JSON.parse(localStorage.getItem("vacunos")) || [];
+    
+                vacunos.splice(index, 1);
+    
+                localStorage.setItem("vacunos", JSON.stringify(vacunos));
+    
+                mostrarVacunos();
+                cargarOpcionesVacas();
+                cargarOpcionesVacasVerDosis();
+            }
+        }
+    
+function cargarOpcionesVacas() {
+    const selectVaca = document.getElementById("vacaSeleccionada");
+    const vacunos = JSON.parse(localStorage.getItem("vacunos")) || [];
+
+    selectVaca.innerHTML = "";
+
+    vacunos.forEach((vacuno) => {
+        const option = document.createElement("option");
+        option.value = vacuno.numero;
+        option.textContent = vacuno.nombre;
+        selectVaca.appendChild(option);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    cargarOpcionesVacas();
+});
+
+function agregarDosis() {
+    const vacaSeleccionada = document.getElementById("vacaSeleccionada").value;
+    const fecha = document.getElementById("fecha").value;
+    const accion = document.getElementById("accion").value;
+    const producto = document.getElementById("producto").value;
+    const dosisMl = document.getElementById("dosisMl").value;
+    const proximaDosis = document.getElementById("proximaDosis").value;
+    const observaciones = document.getElementById("observaciones").value;
+
+    if (fecha && accion && producto && dosisMl && proximaDosis) {
+        const vacunos = JSON.parse(localStorage.getItem("vacunos")) || [];
+
+        const vacuno = vacunos.find((v) => v.numero == vacaSeleccionada);
+
+        if (vacuno) {
+            vacuno.dosis = vacuno.dosis || [];
+
+            const nuevaDosis = {
+                fecha,
+                accion,
+                producto,
+                dosisMl,
+                proximaDosis,
+                observaciones,
+            };
+
+            vacuno.dosis.push(nuevaDosis);
+
+            localStorage.setItem("vacunos", JSON.stringify(vacunos));
+
+            document.getElementById("formulario-dosis").reset();
+
+            $('#agregarDosisModal').modal('hide');
+        } else {
+            alert("No se encontró la vaca seleccionada en el Local Storage.");
+        }
+    } else {
+        alert("Por favor, complete todos los campos obligatorios.");
+    }
+}
+       
+
+
+function cargarOpcionesVacasVerDosis() {
+    const selectVacaVerDosis = document.getElementById("vacaSeleccionadaVerDosis");
+    const vacunos = JSON.parse(localStorage.getItem("vacunos")) || [];
+
+    selectVacaVerDosis.innerHTML = "";
+
+    vacunos.forEach((vacuno) => {
+        const option = document.createElement("option");
+        option.value = vacuno.numero;
+        option.textContent = vacuno.nombre;
+        selectVacaVerDosis.appendChild(option);
+    });
+
+    selectVacaVerDosis.addEventListener("change", () => {
+        const vacaSeleccionada = selectVacaVerDosis.value;
+        mostrarDosisVaca(vacaSeleccionada);
+    });
+}
+
+function mostrarDosisVaca(numeroVaca) {
+    const tablaDosisVaca = document.getElementById("tabla-dosis-vaca");
+    tablaDosisVaca.innerHTML = "";
+
+    const vacunos = JSON.parse(localStorage.getItem("vacunos")) || [];
+
+    const vacunoSeleccionado = vacunos.find((v) => v.numero === numeroVaca);
+
+    if (vacunoSeleccionado && vacunoSeleccionado.dosis) {
+        vacunoSeleccionado.dosis.forEach((dosis, index) => {
+            const fila = `
+                <tr>
+                    <td>${dosis.fecha}</td>
+                    <td>${dosis.accion}</td>
+                    <td>${dosis.producto}</td>
+                    <td>${dosis.dosisMl}</td>
+                    <td>${dosis.proximaDosis}</td>
+                    <td>${dosis.observaciones || "N/A"}</td>
+                </tr>
+            `;
+            tablaDosisVaca.innerHTML += fila;
+        });
+    }
+}
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    cargarOpcionesVacasVerDosis();
+});
+
+        mostrarVacunos();
+    </script>
+    
+</body>
+</html>

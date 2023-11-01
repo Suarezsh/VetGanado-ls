@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enfermedades</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 60px; 
+        }
+        .table-striped>tbody>tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-light text-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Vet-Ganado</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="vacunos.html">Vacunos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="ovinos.html">Ovinos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="tecnico.html">Técnicos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-success" href="enfermedades.html">Enfermedades</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>Enfermedades</h1>
+
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="tipoAnimal">Tipo de Animal:</label>
+                <select class="form-control" id="tipoAnimal">
+                    <option value="vacunos">Vacunos</option>
+                    <option value="ovinos">Ovinos</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="palabraClave">Palabra Clave:</label>
+                <input type="text" class="form-control" id="palabraClave">
+            </div>
+            <div class="form-group col-md-2">
+                <button class="btn btn-primary" onclick="filtrarEnfermedades()">Buscar</button>
+            </div>
+        </div>
+
+        <table class="table table-responsive mt-4">
+            <thead>
+                <tr>
+                    <th>Enfermedad</th>
+                    <th>Síntomas</th>
+                    <th>Tratamiento</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-enfermedades">
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+
+    <script>
+        let vacunosData = [
+    { Enfermedad: "Fiebre Aftosa", Síntomas: "Vesículas en las pezuñas y la boca - fiebre - cojera", Tratamiento: "Vacuna inactivada" },
+    { Enfermedad: "Brucelosis", Síntomas: "Fiebre - debilidad - abortos en vacas", Tratamiento: "Doxiciclina" },
+    { Enfermedad: "Tuberculosis Bovina", Síntomas: "Tos crónica - pérdida de peso - debilidad", Tratamiento: "Vacunación y sacrificio" },
+    { Enfermedad: "Anaplasmosis (Enfermedad de las Muñecas Azules)", Síntomas: "Palidez de las mucosas - fiebre - anemia", Tratamiento: "Oxitetraciclina" },
+    { Enfermedad: "Leucosis Bovina", Síntomas: "Pérdida de peso - debilidad - inmunosupresión", Tratamiento: "Prevención y manejo" },
+    { Enfermedad: "Neosporosis", Síntomas: "Abortos - debilidad en las extremidades", Tratamiento: "Clindamicina" },
+    { Enfermedad: "Babesiosis", Síntomas: "Fiebre - anemia - ictericia", Tratamiento: "Imidocarb" },
+    { Enfermedad: "Tripanosomiasis Bovina", Síntomas: "Pérdida de peso - debilidad - letargo", Tratamiento: "Diminazene" },
+    { Enfermedad: "Pasteurelosis", Síntomas: "Fiebre - dificultad respiratoria", Tratamiento: "Ampicilina" },
+    { Enfermedad: "Clostridiosis", Síntomas: "Inflamación abdominal - diarrea sanguinolenta", Tratamiento: "Penicilina" },
+    { Enfermedad: "Salmonelosis", Síntomas: "Diarrea - fiebre - deshidratación", Tratamiento: "Ciprofloxacina" },
+    { Enfermedad: "Colibacilosis", Síntomas: "Diarrea - deshidratación", Tratamiento: "Sulfonamidas" },
+    { Enfermedad: "Mastitis", Síntomas: "Hinchazón y enrojecimiento de las ubres", Tratamiento: "Antibióticos intramamarios" },
+    { Enfermedad: "Enfermedad Respiratoria Bovina (ERB)", Síntomas: "Tos - dificultad respiratoria", Tratamiento: "Tratamientos con antibióticos" },
+    { Enfermedad: "Encefalopatía Espongiforme Bovina (EEB)", Síntomas: "Cambios de comportamiento - no hay cura", Tratamiento: "No hay cura" },
+    { Enfermedad: "Rabia Bovina", Síntomas: "Agresión - babeo", Tratamiento: "No hay cura" },
+    { Enfermedad: "Hipocalcemia (Fiebre de la Leche)", Síntomas: "Temblores - debilidad", Tratamiento: "Gluconato de calcio" },
+    { Enfermedad: "Coccidiosis", Síntomas: "Diarrea - deshidratación", Tratamiento: "Sulfonamidas" },
+    { Enfermedad: "Enfermedad de las Algas Tóxicas", Síntomas: "Intoxicación - síntomas neurológicos - no hay cura específica", Tratamiento: "No hay cura específica" },
+];
+    
+let ovinosData = [
+{ Enfermedad: "Maedi-Visna", Síntomas: "Debilidad - pérdida de peso", Tratamiento: "No hay cura" },
+{ Enfermedad: "Brucelosis Ovina", Síntomas: "Abortos - fiebre", Tratamiento: "Doxiciclina" },
+{ Enfermedad: "Peste de Pequeños Rumiantes", Síntomas: "Fiebre - secreción nasal", Tratamiento: "No hay cura específica" },
+{ Enfermedad: "Pulmonía Ovina", Síntomas: "Tos - dificultad respiratoria", Tratamiento: "Penicilina" },
+{ Enfermedad: "Pasteurelosis Ovina", Síntomas: "Fiebre - dificultad respiratoria", Tratamiento: "Ampicilina" },
+{ Enfermedad: "Enterotoxemia Ovina", Síntomas: "Colapso - diarrea", Tratamiento: "Antitoxina" },
+{ Enfermedad: "Teniasis Ovina", Síntomas: "Pérdida de peso - debilidad", Tratamiento: "Praziquantel" },
+{ Enfermedad: "Estomatitis Contagiosa Ovina", Síntomas: "Úlceras bucales", Tratamiento: "Vacunación" },
+{ Enfermedad: "Pododermatitis Ovina", Síntomas: "Cojera - hinchazón en las patas", Tratamiento: "Antibióticos" },
+{ Enfermedad: "Scrapie", Síntomas: "Cambios de comportamiento", Tratamiento: "No hay cura" },
+{ Enfermedad: "Tuberculosis Ovina", Síntomas: "Tos crónica - pérdida de peso", Tratamiento: "Sacrificio" },
+{ Enfermedad: "Fascioliasis", Síntomas: "Pérdida de peso - debilidad", Tratamiento: "Triclabendazol" },
+{ Enfermedad: "Neosporosis Ovina", Síntomas: "Abortos - debilidad en las extremidades", Tratamiento: "Clindamicina" },
+{ Enfermedad: "Coccidiosis Ovina", Síntomas: "Diarrea - deshidratación", Tratamiento: "Sulfonamidas" },
+{ Enfermedad: "Gastroenteritis Verminosa Ovina", Síntomas: "Diarrea - desnutrición", Tratamiento: "Antihelmínticos" },
+{ Enfermedad: "Enfermedad de la Falsa Peste Ovina", Síntomas: "Fiebre - dificultad respiratoria", Tratamiento: "Penicilina" },
+{ Enfermedad: "Tuberculosis Aviar", Síntomas: "Tos crónica - pérdida de peso", Tratamiento: "Sacrificio" },
+{ Enfermedad: "Ceguera Ovina", Síntomas: "Pérdida de visión", Tratamiento: "No hay cura" },
+{ Enfermedad: "Artritis Encefalitis Caprina (CAE)", Síntomas: "Cojera - debilidad", Tratamiento: "No hay cura" },
+{ Enfermedad: "Enfermedad de la Lengua Azul", Síntomas: "Hinchazón de la lengua", Tratamiento: "No hay cura" }
+];
+    
+        cargarDatos();
+    
+        function cargarDatos() {
+            const tipoAnimalSelect = document.getElementById("tipoAnimal");
+    
+            tipoAnimalSelect.addEventListener("change", function () {
+                const tipoAnimal = tipoAnimalSelect.value;
+                mostrarEnfermedades();
+            });
+    
+            mostrarEnfermedades();
+        }
+    
+        function mostrarEnfermedades() {
+            const tablaEnfermedades = document.getElementById("tabla-enfermedades");
+            tablaEnfermedades.innerHTML = "";
+    
+            const tipoAnimal = document.getElementById("tipoAnimal").value;
+            const palabraClave = document.getElementById("palabraClave").value.toLowerCase();
+            const data = tipoAnimal === "vacunos" ? vacunosData : ovinosData;
+    
+            data.forEach(enfermedad => {
+                if (
+                    enfermedad["Enfermedad"].toLowerCase().includes(palabraClave) ||
+                    enfermedad["Síntomas"].toLowerCase().includes(palabraClave) ||
+                    enfermedad["Tratamiento"].toLowerCase().includes(palabraClave)
+                ) {
+                    const fila = `
+                        <tr>
+                            <td>${enfermedad["Enfermedad"]}</td>
+                            <td>${enfermedad["Síntomas"]}</td>
+                            <td>${enfermedad["Tratamiento"]}</td>
+                        </tr>
+                    `;
+                    tablaEnfermedades.innerHTML += fila;
+                }
+            });
+        }
+    
+        function filtrarEnfermedades() {
+            mostrarEnfermedades();
+        }
+    </script>
+    
+</body>
+</html>

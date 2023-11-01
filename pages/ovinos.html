@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ovinos - Vet-Ganado</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            padding-top: 60px;
+        }
+        .table-striped>tbody>tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-light text-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Vet-Ganado</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="vacunos.html">Vacunos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-success" href="ovinos.html">Ovinos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="tecnico.html">Técnicos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="enfermedades.html">Enfermedades</a>
+                </li>
+                
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>Ovinos</h1>
+        <div class="mb-3">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#agregarOvinoModal">Agregar Ovino</button>
+            <button class="btn btn-success" data-toggle="modal" data-target="#gestionarDosisModal">Gestionar Dosis</button>
+        </div>
+
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>Nº</th>
+                    <th>Nombre</th>
+                    <th>Fecha Nacimiento</th>
+                    <th>Raza</th>
+                    <th>Sexo</th>
+                    <th>Padre</th>
+                    <th>Madre</th>
+                    <th>Observaciones</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-ovinos">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="agregarOvinoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Ovino</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formulario-ovino">
+                        <div class="form-group">
+                            <label for="numero">Nº:</label>
+                            <input type="text" class="form-control" id="numero" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" class="form-control" id="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+                            <input type="date" class="form-control" id="fechaNacimiento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="raza">Raza:</label>
+                            <input type="text" class="form-control" id="raza" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sexo">Sexo:</label>
+                            <select class="form-control" id="sexo" required>
+                                <option value="macho">Macho</option>
+                                <option value="hembra">Hembra</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="padre">Padre:</label>
+                            <input type="text" class="form-control" id="padre">
+                        </div>
+                        <div class="form-group">
+                            <label for="madre">Madre:</label>
+                            <input type="text" class="form-control" id="madre">
+                        </div>
+                        <div class="form-group">
+                            <label for="observaciones">Observaciones:</label>
+                            <textarea class="form-control" id="observaciones"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="agregarOvino()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="gestionarDosisModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Gestionar Dosis</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#agregarDosisModal">Agregar Dosis</button>
+                    <button class="btn btn-success" data-toggle="modal" data-target="#verDosisModal">Ver Dosis</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="agregarDosisModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Dosis</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formulario-dosis">
+                        <div class="form-group">
+                            <label for="ovinoSeleccionado">Selecciona un Ovino:</label>
+                            <select class="form-control" id="ovinoSeleccionado">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="fecha">Fecha:</label>
+                            <input type="date" class="form-control" id="fecha" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="accion">Acción:</label>
+                            <input type="text" class="form-control" id="accion" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="producto">Producto:</label>
+                            <input type="text" class="form-control" id="producto" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dosisMl">Dosis (ml):</label>
+                            <input type="number" class="form-control" id="dosisMl" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="proximaDosis">Próxima Dosis:</label>
+                            <input type="date" class="form-control" id="proximaDosis" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="observaciones">Observaciones:</label>
+                            <textarea class="form-control" id="observaciones"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="agregarDosis()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="verDosisModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Dosis del Ovino</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="verDosisInfo">
+                    <div class="form-group">
+                        <label for="ovinoSeleccionadoVerDosis">Selecciona un Ovino:</label>
+                        <select class="form-control" id="ovinoSeleccionadoVerDosis">
+                        </select>
+                    </div>
+                    <h5>Dosis del Ovino</h5>
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Acción</th>
+                                <th>Producto</th>
+                                <th>Dosis (ml)</th>
+                                <th>Próxima Dosis</th>
+                                <th>Observaciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-dosis-ovino">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function agregarOvino() {
+            const numero = document.getElementById("numero").value;
+            const nombre = document.getElementById("nombre").value;
+            const fechaNacimiento = document.getElementById("fechaNacimiento").value;
+            const raza = document.getElementById("raza").value;
+            const sexo = document.getElementById("sexo").value;
+            const padre = document.getElementById("padre").value;
+            const madre = document.getElementById("madre").value;
+            const observaciones = document.getElementById("observaciones").value;
+    
+            if (numero && nombre && fechaNacimiento && raza && sexo) {
+                const ovinos = JSON.parse(localStorage.getItem("ovinos")) || [];
+    
+                const ovinoExistente = ovinos.find((o) => o.numero === numero);
+    
+                if (ovinoExistente) {
+                    ovinoExistente.nombre = nombre;
+                    ovinoExistente.fechaNacimiento = fechaNacimiento;
+                    ovinoExistente.raza = raza;
+                    ovinoExistente.sexo = sexo;
+                    ovinoExistente.padre = padre;
+                    ovinoExistente.madre = madre;
+                    ovinoExistente.observaciones = observaciones;
+                } else {
+                    const nuevoOvino = {
+                        numero,
+                        nombre,
+                        fechaNacimiento,
+                        raza,
+                        sexo,
+                        padre,
+                        madre,
+                        observaciones,
+                    };
+    
+                    ovinos.push(nuevoOvino);
+                }
+    
+                localStorage.setItem("ovinos", JSON.stringify(ovinos));
+    
+                document.getElementById("formulario-ovino").reset();
+    
+                mostrarOvinos();
+                cargarOpcionesOvinos();
+                cargarOpcionesOvinosVerDosis();
+    
+                $('#agregarOvinoModal').modal('hide');
+            } else {
+                alert("Por favor, complete todos los campos obligatorios.");
+            }
+        }
+    
+        function mostrarOvinos() {
+            const tablaOvinos = document.getElementById("tabla-ovinos");
+            tablaOvinos.innerHTML = "";
+    
+            const ovinos = JSON.parse(localStorage.getItem("ovinos")) || [];
+    
+            ovinos.forEach((ovino, index) => {
+                const fila = `
+                    <tr>
+                        <td>${ovino.numero}</td>
+                        <td>${ovino.nombre}</td>
+                        <td>${ovino.fechaNacimiento}</td>
+                        <td>${ovino.raza}</td>
+                        <td>${ovino.sexo}</td>
+                        <td>${ovino.padre || "N/A"}</td>
+                        <td>${ovino.madre || "N/A"}</td>
+                        <td>${ovino.observaciones || "N/A"}</td>
+                        <td>
+                            <button class="btn btn-primary" onclick="editarOvino(${index})">Editar</button>
+                            <button class="btn btn-danger" onclick="eliminarOvino(${index})">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+                tablaOvinos.innerHTML += fila;
+            });
+        }
+    
+        function editarOvino(index) {
+            const ovinos = JSON.parse(localStorage.getItem("ovinos")) || [];
+    
+            const ovinoAEditar = ovinos[index];
+    
+            document.getElementById("numero").value = ovinoAEditar.numero;
+            document.getElementById("nombre").value = ovinoAEditar.nombre;
+            document.getElementById("fechaNacimiento").value = ovinoAEditar.fechaNacimiento;
+            document.getElementById("raza").value = ovinoAEditar.raza;
+            document.getElementById("sexo").value = ovinoAEditar.sexo;
+            document.getElementById("padre").value = ovinoAEditar.padre || "";
+            document.getElementById("madre").value = ovinoAEditar.madre || "";
+            document.getElementById("observaciones").value = ovinoAEditar.observaciones || "";
+    
+            $('#agregarOvinoModal').modal('show');
+        }
+    
+        function eliminarOvino(index) {
+            if (confirm("¿Seguro que desea eliminar este ovino?")) {
+                const ovinos = JSON.parse(localStorage.getItem("ovinos")) || [];
+    
+                ovinos.splice(index, 1);
+    
+                localStorage.setItem("ovinos", JSON.stringify(ovinos));
+    
+                mostrarOvinos();
+                cargarOpcionesOvinos();
+                cargarOpcionesOvinosVerDosis();
+            }
+        }
+    
+        function cargarOpcionesOvinos() {
+            const selectOvino = document.getElementById("ovinoSeleccionado");
+            selectOvino.innerHTML = "";
+    
+            const ovinos = JSON.parse(localStorage.getItem("ovinos")) || [];
+    
+            const opcionPorDefecto = document.createElement("option");
+            opcionPorDefecto.value = "";
+            opcionPorDefecto.textContent = "Seleccionar un ovino";
+            selectOvino.appendChild(opcionPorDefecto);
+    
+            ovinos.forEach((ovino) => {
+                const opcion = document.createElement("option");
+                opcion.value = ovino.numero;
+                opcion.textContent = `${ovino.numero} - ${ovino.nombre}`;
+                selectOvino.appendChild(opcion);
+            });
+        }
+    
+        function cargarOpcionesOvinosVerDosis() {
+            const selectOvino = document.getElementById("ovinoSeleccionadoVerDosis");
+            selectOvino.innerHTML = "";
+    
+            const ovinos = JSON.parse(localStorage.getItem("ovinos")) || [];
+    
+            const opcionPorDefecto = document.createElement("option");
+            opcionPorDefecto.value = "";
+            opcionPorDefecto.textContent = "Seleccionar un ovino";
+            selectOvino.appendChild(opcionPorDefecto);
+    
+            ovinos.forEach((ovino) => {
+                const opcion = document.createElement("option");
+                opcion.value = ovino.numero;
+                opcion.textContent = `${ovino.numero} - ${ovino.nombre}`;
+                selectOvino.appendChild(opcion);
+            });
+        }
+    
+        function agregarDosis() {
+            const ovinoSeleccionado = document.getElementById("ovinoSeleccionado").value;
+            const fecha = document.getElementById("fecha").value;
+            const accion = document.getElementById("accion").value;
+            const producto = document.getElementById("producto").value;
+            const dosisMl = document.getElementById("dosisMl").value;
+            const proximaDosis = document.getElementById("proximaDosis").value;
+            const observaciones = document.getElementById("observaciones").value;
+    
+            if (ovinoSeleccionado && fecha && accion && producto && dosisMl && proximaDosis) {
+                const dosis = JSON.parse(localStorage.getItem("dosis")) || [];
+    
+                const nuevaDosis = {
+                    ovinoSeleccionado,
+                    fecha,
+                    accion,
+                    producto,
+                    dosisMl,
+                    proximaDosis,
+                    observaciones,
+                };
+                dosis.push(nuevaDosis);
+    
+                localStorage.setItem("dosis", JSON.stringify(dosis));
+    
+                document.getElementById("formulario-dosis").reset();
+    
+                mostrarDosis();
+                cargarDosisOvinoSeleccionado();
+    
+                $('#agregarDosisModal').modal('hide');
+            } else {
+                alert("Por favor, complete todos los campos obligatorios.");
+            }
+        }
+    
+        function mostrarDosis() {
+            const tablaDosis = document.getElementById("tabla-dosis-ovino");
+            tablaDosis.innerHTML = "";
+    
+            const dosis = JSON.parse(localStorage.getItem("dosis")) || [];
+    
+            dosis.forEach((dosis) => {
+                const fila = `
+                    <tr>
+                        <td>${dosis.fecha}</td>
+                        <td>${dosis.accion}</td>
+                        <td>${dosis.producto}</td>
+                        <td>${dosis.dosisMl}</td>
+                        <td>${dosis.proximaDosis}</td>
+                        <td>${dosis.observaciones || "N/A"}</td>
+                    </tr>
+                `;
+                tablaDosis.innerHTML += fila;
+            });
+        }
+    
+        function cargarDosisOvinoSeleccionado() {
+            const ovinoSeleccionado = document.getElementById("ovinoSeleccionadoVerDosis").value;
+            if (!ovinoSeleccionado) {
+                limpiarTablaDosis();
+                return;
+            }
+    
+            const dosis = JSON.parse(localStorage.getItem("dosis")) || [];
+    
+            const dosisOvinoSeleccionado = dosis.filter((dosis) => dosis.ovinoSeleccionado === ovinoSeleccionado);
+    
+            mostrarDosisOvinoSeleccionado(dosisOvinoSeleccionado);
+        }
+    
+        function limpiarTablaDosis() {
+            const tablaDosis = document.getElementById("tabla-dosis-ovino");
+            tablaDosis.innerHTML = "";
+        }
+        document.getElementById("ovinoSeleccionadoVerDosis").addEventListener("change", cargarDosisOvinoSeleccionado);
+    
+        function mostrarDosisOvinoSeleccionado(dosisOvinoSeleccionado) {
+            const tablaDosis = document.getElementById("tabla-dosis-ovino");
+            tablaDosis.innerHTML = "";
+    
+            dosisOvinoSeleccionado.forEach((dosis) => {
+                const fila = `
+                    <tr>
+                        <td>${dosis.fecha}</td>
+                        <td>${dosis.accion}</td>
+                        <td>${dosis.producto}</td>
+                        <td>${dosis.dosisMl}</td>
+                        <td>${dosis.proximaDosis}</td>
+                        <td>${dosis.observaciones || "N/A"}</td>
+                    </tr>
+                `;
+                tablaDosis.innerHTML += fila;
+            });
+        }
+    
+        cargarOpcionesOvinos();
+        cargarOpcionesOvinosVerDosis();
+    
+        mostrarOvinos();
+    
+        mostrarDosis();
+        cargarDosisOvinoSeleccionado()
+    </script>
+</body>
+</html>

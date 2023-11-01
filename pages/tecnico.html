@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Técnicos - Vet-Ganado</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 60px;
+        }
+        .table-striped>tbody>tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        .float-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="bg-light text-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">Vet-Ganado</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="vacunos.html">Vacunos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="ovinos.html">Ovinos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-success" href="tecnicos.html">Técnicos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="enfermedades.html">Enfermedades</a>
+                </li>
+                
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>Técnicos</h1>
+
+        <div class="float-button">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#agregarActividadModal">Agregar Actividad</button>
+        </div>
+
+        <div class="modal fade" id="agregarActividadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Agregar Actividad</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formulario-actividad">
+                            <div class="form-group">
+                                <label for="fecha">Fecha:</label>
+                                <input type="date" class="form-control" id="fecha" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="propietario">Propietario:</label>
+                                <input type="text" class="form-control" id="propietario" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tipoAnimal">Tipo de Animal:</label>
+                                <select class="form-control" id="tipoAnimal" required>
+                                    <option value="vacuno">Vacuno</option>
+                                    <option value="ovino">Ovino</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="accion">Acción:</label>
+                                <input type="text" class="form-control" id="accion" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cantidadMl">Cantidad (ml):</label>
+                                <input type="number" class="form-control" id="cantidadMl" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="producto">Producto Utilizado:</label>
+                                <input type="text" class="form-control" id="producto" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="proximaActividad">Próxima Actividad:</label>
+                                <input type="date" class="form-control" id="proximaActividad" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" onclick="agregarActividad()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="filtroFecha">Fecha:</label>
+                    <input type="date" class="form-control" id="filtroFecha">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="filtroPropietario">Propietario:</label>
+                    <input type="text" class="form-control" id="filtroPropietario">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="filtroAccion">Acción:</label>
+                    <input type="text" class="form-control" id="filtroAccion">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="filtroTipoAnimal">Tipo de Animal:</label>
+                    <select class="form-control" id="filtroTipoAnimal">
+                        <option value="">Todos</option>
+                        <option value="vacuno">Vacuno</option>
+                        <option value="ovino">Ovino</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="filtrarActividades()">Buscar</button>
+        </div>
+        <table class="table table-responsive mt-4">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Propietario</th>
+                    <th>Acción</th>
+                    <th>Tipo de Animal</th>
+                    <th>Cantidad (ml)</th>
+                    <th>Producto Utilizado</th>
+                    <th>Próxima Actividad</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-actividades">
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function agregarActividad() {
+            const fecha = document.getElementById("fecha").value;
+            const propietario = document.getElementById("propietario").value;
+            const tipoAnimal = document.getElementById("tipoAnimal").value;
+            const accion = document.getElementById("accion").value;
+            const cantidadMl = document.getElementById("cantidadMl").value;
+            const producto = document.getElementById("producto").value;
+            const proximaActividad = document.getElementById("proximaActividad").value;
+
+            if (fecha && propietario && tipoAnimal && accion && cantidadMl && producto && proximaActividad) {
+                
+                const actividades = JSON.parse(localStorage.getItem("actividades")) || [];
+
+                const nuevaActividad = {
+                    fecha,
+                    propietario,
+                    tipoAnimal,
+                    accion,
+                    cantidadMl,
+                    producto,
+                    proximaActividad
+                };
+
+                actividades.push(nuevaActividad);
+
+                localStorage.setItem("actividades", JSON.stringify(actividades));
+
+                document.getElementById("formulario-actividad").reset();
+
+                mostrarActividades();
+                
+                $('#agregarActividadModal').modal('hide');
+            } else {
+                alert("Por favor, complete todos los campos obligatorios.");
+            }
+        }
+
+        function mostrarActividades() {
+            const tablaActividades = document.getElementById("tabla-actividades");
+            tablaActividades.innerHTML = "";
+
+            const actividades = JSON.parse(localStorage.getItem("actividades")) || [];
+
+            actividades.forEach(actividad => {
+                const fila = `
+                    <tr>
+                        <td>${actividad.fecha}</td>
+                        <td>${actividad.propietario}</td>
+                        <td>${actividad.accion}</td>
+                        <td>${actividad.tipoAnimal}</td>
+                        <td>${actividad.cantidadMl}</td>
+                        <td>${actividad.producto}</td>
+                        <td>${actividad.proximaActividad}</td>
+                    </tr>
+                `;
+                tablaActividades.innerHTML += fila;
+            });
+        }
+
+        function filtrarActividades() {
+            const filtroFecha = document.getElementById("filtroFecha").value;
+            const filtroPropietario = document.getElementById("filtroPropietario").value;
+            const filtroAccion = document.getElementById("filtroAccion").value;
+            const filtroTipoAnimal = document.getElementById("filtroTipoAnimal").value;
+
+            const actividades = JSON.parse(localStorage.getItem("actividades")) || [];
+
+            const actividadesFiltradas = actividades.filter(actividad => {
+                return (!filtroFecha || actividad.fecha === filtroFecha) &&
+                       (!filtroPropietario || actividad.propietario.includes(filtroPropietario)) &&
+                       (!filtroAccion || actividad.accion.includes(filtroAccion)) &&
+                       (!filtroTipoAnimal || actividad.tipoAnimal === filtroTipoAnimal);
+            });
+
+            const tablaActividades = document.getElementById("tabla-actividades");
+            tablaActividades.innerHTML = "";
+
+            actividadesFiltradas.forEach(actividad => {
+                const fila = `
+                    <tr>
+                        <td>${actividad.fecha}</td>
+                        <td>${actividad.propietario}</td>
+                        <td>${actividad.accion}</td>
+                        <td>${actividad.tipoAnimal}</td>
+                        <td>${actividad.cantidadMl}</td>
+                        <td>${actividad.producto}</td>
+                        <td>${actividad.proximaActividad}</td>
+                    </tr>
+                `;
+                tablaActividades.innerHTML += fila;
+            });
+        }
+
+        mostrarActividades();
+    </script>
+</body>
+</html>
